@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Corrección para que no haya márgenes ni scroll raro */
+html, body {
+  @apply m-0 p-0 w-full h-full;
+  font-family: 'system-ui', sans-serif;
+}
+
+/* Evita scroll horizontal innecesario */
+body {
+  overflow-x: hidden;
+  background-color: transparent;
+}
+
+/* Asegura responsividad y sin límites artificiales */
+#root {
+  @apply w-full h-full;
+}
