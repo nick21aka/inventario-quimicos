@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import fondo from './assets/fondo.png';
 
+const API_URL = 'https://inventario-backend-v32j.onrender.com';
+
 function App() {
   const [productos, setProductos] = useState([]);
   const [productoActivo, setProductoActivo] = useState(null);
@@ -19,7 +21,7 @@ const productosFiltrados = productos.filter((p) =>
 );
 
   const cargarProductos = () => {
-    fetch('http://localhost:3000/productos')
+    fetch(`${API_URL}/productos`)
       .then(res => res.json())
       .then(data => setProductos(data))
       .catch(err => console.error('Error al cargar productos:', err));
@@ -31,7 +33,7 @@ const productosFiltrados = productos.filter((p) =>
 
   const cargarHistorial = async (productoId) => {
   try {
-    const res = await fetch(`http://localhost:3000/movimientos/${productoId}`);
+    const res = await fetch(`${API_URL}/movimientos/${productoId}`);
     const data = await res.json();
     setHistorial(data);
     setMostrarHistorialId(productoId);
@@ -43,7 +45,7 @@ const productosFiltrados = productos.filter((p) =>
 
 
   const registrarMovimiento = async () => {
-    const ruta = `http://localhost:3000/${tipoMovimiento}`;
+    const ruta = `${API_URL}/${tipoMovimiento}`;
     const datos = {
       productoId: productoActivo.id,
       cantidad: parseFloat(cantidad),
@@ -218,7 +220,7 @@ const productosFiltrados = productos.filter((p) =>
                       alert("Completa todos los campos obligatorios.");
                       return;
                     }
-                    const res = await fetch('http://localhost:3000/producto', {
+                    const res = await fetch(`${API_URL}/producto`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify(p),
@@ -276,7 +278,7 @@ const productosFiltrados = productos.filter((p) =>
                     onClick={async () => {
                       const confirmar = confirm(`¿Eliminar "${producto.nombre}"?`);
                       if (!confirmar) return;
-                      const res = await fetch(`http://localhost:3000/producto/${producto.id}`, { method: 'DELETE' });
+                      const res = await fetch(`${API_URL}/producto/${producto.id}`, { method: 'DELETE' });
                       const resultado = await res.json();
                       alert(resultado.mensaje);
                       cargarProductos();
